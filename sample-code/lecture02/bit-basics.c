@@ -12,12 +12,25 @@ int main() {
 
     printf("x as a number: %d\n", x);
     printf("x as a character: %c\n", x);
+    printf("x as an unsigned: %u\n", (unsigned)x);
     printf("x in binary: ");
     for (int i = sizeof(x) * 8 - 1; i >= 0; i--) {
         printf("%d", (x >> i) & 1);
     }
-    
     printf("\n");
+    printf("=========== Testing Negative Integers ========\n");
+    int8_t y = -1; // 8-bit signed integer
+    printf("y as a number: %d\n", y);
+    printf("y as an unsigned: %u\n", (unsigned)y);
+    printf("y in hexadecimal: 0x%x\n", (unsigned)y);
+    printf("y in binary: ");
+    for (int i = sizeof(y) * 8 - 1; i >= 0; i--) {
+        printf("%d", (y >> i) & 1);
+    }   
+    printf("\n");   
+    
+    printf("=========== Testing Bitwise Operations ========\n");
+
     printf("%u & %u = %u\n", a, b, a & b);
     printf("%u | %u = %u\n", a, b, a | b);
     printf("%u ^ %u = %u\n", a, b, a ^ b);
