@@ -44,5 +44,18 @@ int main() {
     printf("%u << 2 = %u\n", a, a << 2);
     printf("257 narrowed to 8 bits: %u\n", (unsigned)small);
 
+    unsigned x_1 = 0xAE;             // 10101110
+    printf("x_1 is %u \n", x_1);
+    x_1 |=  (1u << 3);               // SET     — bit 3 becomes 1
+    printf("x_1 is %u \n", x_1);
+    x_1 = 0xAE;    
+    x_1 = (x_1 | (1u << 3)) ; 
+    printf("x_1 is %u \n", x_1);
+    x_1 &= ~(1u << 3);               // CLEAR   — bit 3 becomes 0
+    printf("x_1 is %u \n", x_1);
+    x_1 ^=  (1u << 3);               // TOGGLE  — bit 3 flips
+    if (x_1 & (1u << 3)) { }         // TEST    — nonzero when bit 3 is 1
+
+
     return 0;
 }

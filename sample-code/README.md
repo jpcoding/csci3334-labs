@@ -8,6 +8,7 @@ out of the slides.
 sample code/
   lecture01/   introduction examples
   lecture02/   bits, bytes, characters and integers
+  lecture03/   addresses, pointers, arrays and strings
 ```
 
 ## Lecture 2
@@ -22,6 +23,19 @@ The files follow the order of the slides:
 | `04-masks.c` | Test, Set, Clear, Toggle |
 | `05-integers.c` | What Two's Complement Means · Sign Extension · Truncation · Size of Integer Types |
 | `06-byte-order.c` | Byte Ordering (Endianness) |
+
+## Lecture 3
+
+Addresses printed by these are whatever that run happened to get — they change
+every time you run them, which is itself worth seeing.
+
+| File | Slides |
+|------|--------|
+| `01-pointers.c` | Pointers Demystified · Three Things, Kept Straight · Two Pointers, One Object |
+| `02-arrays.c` | Pointer Arithmetic · An Array Is Not a Pointer · Arrays Decay to Pointers |
+| `03-strings.c` | Strings Are Char Arrays |
+| `04-2d-arrays.c` | Two-Dimensional Arrays · Why the Order Matters |
+| `05-stack.c` | The Stack |
 
 `bit-basics.c` is a scratch file that touches a bit of everything — handy for
 experimenting, not tied to any one slide.
