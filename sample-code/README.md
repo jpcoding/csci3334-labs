@@ -37,6 +37,7 @@ every time you run them, which is itself worth seeing.
 | `03-strings.c` | Strings Are Char Arrays |
 | `04-2d-arrays.c` | Two-Dimensional Arrays · Why the Order Matters |
 | `05-stack.c` | The Stack |
+| `06-double-pointers.c` | Why `char **argv` · A Matrix, Two Ways |
 
 `bit-basics.c` is a scratch file that touches a bit of everything — handy for
 experimenting, not tied to any one slide.
