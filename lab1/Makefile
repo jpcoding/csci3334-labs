@@ -1,16 +1,18 @@
 # Lab 1: Data Representation — Bit Manipulation
 #
-#   make                 compile bits.c and check the rules
-#   make check           just the rules check
-#   make check P=negate  just one puzzle
+#   make                  compile bits.c, then check it
+#   make check            just the checker
+#   make check P=negate   just one puzzle
 #
-# What you get here is the RULES check: legal operators, the operator budget,
-# no loops or conditionals where they are banned. It cannot tell you whether
-# your answer is correct — that is graded after you submit.
+# check.py answers both questions about a puzzle:
 #
-# So check your work by hand. Every puzzle comment carries worked examples;
-# run them through your expression on paper, and try TMin, TMax, 0 and -1 on
-# anything involving signs.
+#   is it legal?   the operator rules — legal operators, the budget, no loops
+#                  or conditionals where they are banned
+#   is it right?   your function is called with a few hundred thousand values
+#                  and compared against the same answer computed in Python
+#
+# A failure prints the exact input that broke it. Feed that value back in and
+# trace it by hand — that is almost always faster than staring at the code.
 #
 # Your first build warns about unused parameters once per unfinished puzzle.
 # That is not a problem — it is a to-do list. The warnings disappear as you
@@ -22,7 +24,7 @@
 CC     = gcc
 CFLAGS = -std=c17 -Wall -Wextra -g -O0
 
-# The correctness grader is the instructor's and is not in the handout. As in
+# btest is a second, independent grader kept on the instructor's side. As in
 # lab 3, the prerequisite goes through $(wildcard): with the file absent the
 # list is empty and `make` still works, instead of dying on a missing target.
 BTEST := $(wildcard _instructor/btest.c)
@@ -35,28 +37,19 @@ build:
 	@$(CC) $(CFLAGS) -fsyntax-only bits.c && echo "bits.c compiles."
 
 check: build
-	@python3 dlc.py bits.c $(if $(P),--puzzle $(P))
+	@python3 check.py bits.c $(if $(P),-p $(P)) || true
 
 clean:
 	rm -f btest
 
-ifeq ($(BTEST),)
-.PHONY: test grade
-test grade:
-	@echo "There is no local correctness check in this handout — correctness is"
-	@echo "graded after you submit. 'make check' tells you whether your answer is"
-	@echo "legal; the worked examples in each puzzle comment are how you tell"
-	@echo "whether it is right."
-else
-.PHONY: test grade
+ifneq ($(BTEST),)
+.PHONY: grade
 
 btest: $(BTEST) bits.c
 	$(CC) $(CFLAGS) -o $@ $^
 
-test: btest
-	@./btest $(P)
-
+# Both graders, so the two implementations keep each other honest.
 grade: btest
 	-@./btest $(P)
-	@python3 dlc.py bits.c $(if $(P),--puzzle $(P))
+	@python3 check.py bits.c $(if $(P),-p $(P))
 endif
