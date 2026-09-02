@@ -23,6 +23,7 @@ The files follow the order of the slides:
 | `04-masks.c` | Test, Set, Clear, Toggle |
 | `05-integers.c` | What Two's Complement Means · Sign Extension · Truncation · Size of Integer Types |
 | `06-byte-order.c` | Byte Ordering (Endianness) |
+| `07-single-number.c` | Bit Tricks in the Wild — LeetCode 136 |
 
 ## Lecture 3
 
