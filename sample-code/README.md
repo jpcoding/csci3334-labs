@@ -9,6 +9,7 @@ sample code/
   lecture02/   bits, bytes, characters and integers
   lecture03/   addresses, pointers, arrays and strings
   lecture04/   structs, alignment, unions and bit fields
+  lecture05/   integer arithmetic, overflow and the bugs it causes
 ```
 
 ## Lecture 2
@@ -58,6 +59,36 @@ later in the course.
 
 `07-aos-soa.c` is a timing program, so the Makefile builds it with `-O2`. Your
 numbers will not match the slide's; the byte counts will.
+
+## Lecture 5
+
+| File | Slides |
+|------|--------|
+| `00-rewind.c` | Rewind: The Box From Lecture 2 · The Odometer Rolls Over |
+| `01-wrap.c` | Overflow Is a Clock, Not a Crash |
+| `01b-promotion.c` | The Size of the Box Decides |
+| `02-signed.c` | Adding Two Signed Bytes · Ask Before You Add |
+| `03-intmin.c` | `INT_MIN` Has No Twin |
+| `04-average.c` | The Midpoint That Overflowed · Run It: A Negative Array Index |
+| `05-compare.c` | Signed and Unsigned: Do Not Guess · Run It: The Check That Let It Through |
+| `06-alloc.c` | The Allocation That Wraps |
+| `07-shift.c` | Division · Shifting a Negative Is Not Dividing It |
+| `08-quantize.c` | AI Systems Connection · Run It: The Accumulator That Wrapped |
+| `09-ubsan.c` | Find It Before It Finds You |
+
+`00-rewind.c` reuses `print_binary` from lecture 4, narrowed to one byte.
+
+`01b-promotion.c` is built for running live: four numbered sections, and a
+header comment listing types to swap in and what each one changes.
+
+`09-ubsan.c` is deliberately broken. `make ubsan` builds the sanitized version:
+
+```bash
+make ubsan && ./09-ubsan-san 2147483647 1
+```
+
+`05-compare.c` switches `-Wsign-compare` off with a pragma so the bug can run
+at all. That warning is the real defence — never write the pragma yourself.
 
 ## Building
 
