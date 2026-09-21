@@ -10,6 +10,7 @@ sample code/
   lecture03/   addresses, pointers, arrays and strings
   lecture04/   structs, alignment, unions and bit fields
   lecture05/   integer arithmetic, overflow and the bugs it causes
+  lecture06/   x86-64 registers, data movement and addressing
 ```
 
 ## Lecture 2
@@ -109,3 +110,18 @@ gcc -std=c17 -Wall -Wextra -Werror 03-bitwise.c -o 03-bitwise
 
 Every example compiles clean with those flags. If yours does not, the warning
 is telling you something — read it before you silence it.
+
+## Lecture 6
+
+These are the first programs meant to be **read as assembly**, not only run.
+`make asm` emits Intel-syntax x86-64; `make dis` adds the byte encodings.
+Both work on an Apple Silicon Mac — clang cross-compiles — though the x86-64
+binaries themselves will not run there.
+
+| File | Slides |
+|------|--------|
+| `01-first-look.c` | Run It: Get the Assembly Yourself · Run It: One Line of C, One Addressing Mode · Your First Whole Function · A Loop, Line by Line · Run It: The Bytes Are Right There |
+| `02-lea.c` | Run It: `lea` as the Cheap Multiplier |
+| `03-shapes.c` | The Four Shapes, in a Register |
+| `04-sizes.c` | Run It: Writing Through the Narrow Names |
+
