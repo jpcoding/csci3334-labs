@@ -14,6 +14,7 @@ sample code/
   lecture06/   x86-64 registers, data movement and addressing
   lecture07/   jumps, the stack, calls and recursion (+ a GPU warp-divergence demo)
   lecture08/   buffer overflows, defenses and undefined behaviour
+  lecture09/   the kernel: exceptions, system calls and processes (+ a GPU demo)
 ```
 
 ## Lecture 2
@@ -179,4 +180,33 @@ make ub      # builds 03-ub at -O0 AND -O1 and runs both
 
 `01-overflow.c` is deliberately buggy — it is the bug the lecture is about.
 Run it under `make asan` to see the overflow named.
+
+## Lecture 9
+
+This lecture is about Linux itself, so several demos need Linux (WSL2, a
+Linux VM, or the lab machines). `strace` and `/proc` exist only on Linux.
+
+```bash
+make          # everything that runs on any machine
+make run
+make linux    # 01-privileged and 04-hello: Linux x86-64 only
+make gpu      # 11-launches: needs an NVIDIA GPU and nvcc
+```
+
+| File | Slides |
+|------|--------|
+| `01-privileged.c` | Run It: A Forbidden Instruction (Linux x86-64) |
+| `02-page-faults.c` | Run It: Counting Page Faults |
+| `03-divide.c` | Run It: Dividing by Zero on Two CPUs |
+| `04-hello.s` | Hello, World With No C Library · Run It: Two System Calls, Nothing Else (Linux x86-64) |
+| `05-errno.c` | How a System Call Reports an Error |
+| `06-printf.c` | Practice II, question 8 (run it under `strace`) |
+| `07-buffering.c` | Run It: 1000 `printf` Calls, How Many `write`s? |
+| `08-syscall-cost.c` | Run It: What a System Call Costs |
+| `09-pid.c` | Run It: Every Process Has a Number |
+| `10-context-switches.c` | Run It: Counting Context Switches (use Linux; macOS counts differently) |
+| `11-launches.cu` | AI Systems Connection |
+
+`01-privileged` and `03-divide` are meant to be killed by the kernel. That is
+what they demonstrate.
 
