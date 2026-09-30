@@ -21,7 +21,10 @@ long triple(long x) {
     return x * 3;
 }
 
-// arr in rdi, i in rsi.  The whole body is one addressing mode.
+// `arr`'s pointer value arrives in rdi; `i` arrives in rsi. The compiler uses
+// `(%rdi,%rsi,8)`: compute rdi + rsi*8 as an address, then read the long in
+// memory there. The parentheses request that read; they do not make rdi into
+// an address — it already holds the pointer value.
 long index_it(const long *arr, long i) {
     return arr[i];
 }

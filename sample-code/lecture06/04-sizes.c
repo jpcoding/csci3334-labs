@@ -3,10 +3,10 @@
 // A register has four names (rax / eax / ax / al) and writing through the
 // narrow ones does NOT all behave the same way:
 //
-//     mov rax, v   ->  all 64 bits
-//     mov eax, v   ->  low 32 bits, and the top 32 are ZEROED
-//     mov ax,  v   ->  low 16 bits, the rest untouched
-//     mov al,  v   ->  low  8 bits, the rest untouched
+//     movq $v, %rax   ->  all 64 bits
+//     movl $v, %eax   ->  low 32 bits, and the top 32 are ZEROED
+//     movw $v, %ax    ->  low 16 bits, the rest untouched
+//     movb $v, %al    ->  low  8 bits, the rest untouched
 //
 // A union over one 8-byte object models exactly that.
 
@@ -21,7 +21,7 @@ union reg {
 };
 
 static void show(const char *label, uint64_t v) {
-    printf("  %-28s 0x%016llX\n", label, (unsigned long long)v);
+    printf("  %-30s 0x%016llX\n", label, (unsigned long long)v);
 }
 
 int main(void) {
@@ -34,23 +34,23 @@ int main(void) {
     puts("\nwrite 0x11 through each name:");
 
     u.r = start; u.b = 0x11;
-    show("mov al,  0x11", u.r);
+    show("movb $0x11, %al", u.r);
 
     u.r = start; u.w = 0x11;
-    show("mov ax,  0x11", u.r);
+    show("movw $0x11, %ax", u.r);
 
     u.r = start; u.e = 0x11;
-    show("mov eax, 0x11   (union)", u.r);
-    show("mov eax, 0x11   (real x86)", 0x0000000000000011ull);
+    show("movl $0x11, %eax   (union)", u.r);
+    show("movl $0x11, %eax   (real x86)", 0x0000000000000011ull);
 
     puts("\n  The union keeps the top half. Real x86 ZEROES it.");
     puts("  That is a hardware rule, not a C one -- and it is why compilers");
-    puts("  emit `xor eax, eax` to clear all 64 bits of rax in 2 bytes.");
+    puts("  emit `xorl %eax, %eax` to clear all 64 bits of rax in 2 bytes.");
 
-    puts("\nWidening a narrow value (movzx vs movsx):");
+    puts("\nWidening a narrow value (movzbq vs movsbq):");
     uint8_t byte = 0xFF;
-    show("movzx rax, byte  (unsigned)", (uint64_t)(unsigned char)byte);
-    show("movsx rax, byte  (signed)",   (uint64_t)(int64_t)(signed char)byte);
+    show("movzbq %al, %rax  (unsigned)", (uint64_t)(unsigned char)byte);
+    show("movsbq %al, %rax  (signed)",   (uint64_t)(int64_t)(signed char)byte);
     puts("\n  Same byte. The instruction decides whether it meant 255 or -1.");
     return 0;
 }

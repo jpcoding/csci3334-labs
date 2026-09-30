@@ -9,13 +9,13 @@
 
 #include <stdio.h>
 
-long times2(long x) { return x * 2; }   // lea rax, [rdi + rdi]
-long times3(long x) { return x * 3; }   // lea rax, [rdi + rdi*2]
-long times5(long x) { return x * 5; }   // lea rax, [rdi + rdi*4]
-long times9(long x) { return x * 9; }   // lea rax, [rdi + rdi*8]
+long times2(long x) { return x * 2; }   // leaq (%rdi,%rdi), %rax
+long times3(long x) { return x * 3; }   // leaq (%rdi,%rdi,2), %rax
+long times5(long x) { return x * 5; }   // leaq (%rdi,%rdi,4), %rax
+long times9(long x) { return x * 9; }   // leaq (%rdi,%rdi,8), %rax
 
 // 7 is not Base + Index*Scale, but 8x - x is. Two instructions, still no imul.
-long times7(long x) { return x * 7; }   // lea rax, [8*rdi]  then  sub rax, rdi
+long times7(long x) { return x * 7; }   // leaq (,%rdi,8), %rax  then  subq %rdi, %rax
 
 // The address-expression form, used as arithmetic: 4 + 8*i + 3
 long affine(long i) { return 8 * i + 7; }

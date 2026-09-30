@@ -10,7 +10,10 @@ sample code/
   lecture03/   addresses, pointers, arrays and strings
   lecture04/   structs, alignment, unions and bit fields
   lecture05/   integer arithmetic, overflow and the bugs it causes
+  lecture05b/  floating point
   lecture06/   x86-64 registers, data movement and addressing
+  lecture07/   jumps, the stack, calls and recursion (+ a GPU warp-divergence demo)
+  lecture08/   buffer overflows, defenses and undefined behaviour
 ```
 
 ## Lecture 2
@@ -91,6 +94,24 @@ make ubsan && ./09-ubsan-san 2147483647 1
 `05-compare.c` switches `-Wsign-compare` off with a pragma so the bug can run
 at all. That warning is the real defence — never write the pragma yourself.
 
+## Lecture 5b
+
+| File | Slides |
+|------|--------|
+| `00-float-bits.c` | See the Bits Yourself |
+| `01-bits.c` | Pulling the Three Fields Apart · Run It: Eight Values, Thirty-Two Bits |
+| `02-spacing.c` | Run It: The Gap Grows With the Number · Where a Float Stops Counting |
+| `03-not-point-one.c` | Run It: What 0.1 Actually Holds · Never Compare Floats with `==` |
+| `04-rounding.c` | Three Ways to Lose the Fraction |
+| `05-special.c` | Run It: The Ends of the Range |
+| `06-order.c` | Floating Point Is Not Real Arithmetic · Run It: Same Numbers, Different Order |
+| `07-bf16.c` | BF16 Is FP32 With the Tail Cut Off |
+
+Lecture 5b's Makefile links `-lm` for `nextafterf`, `fabs` and `isnan`.
+
+`bit-basics.c` is a scratch file that touches a bit of everything — handy for
+experimenting, not tied to any one slide.
+
 ## Building
 
 Everything at once, from the lecture directory:
@@ -114,7 +135,7 @@ is telling you something — read it before you silence it.
 ## Lecture 6
 
 These are the first programs meant to be **read as assembly**, not only run.
-`make asm` emits Intel-syntax x86-64; `make dis` adds the byte encodings.
+`make asm` emits AT&T-syntax x86-64; `make dis` adds the byte encodings.
 Both work on an Apple Silicon Mac — clang cross-compiles — though the x86-64
 binaries themselves will not run there.
 
@@ -124,4 +145,38 @@ binaries themselves will not run there.
 | `02-lea.c` | Run It: `lea` as the Cheap Multiplier |
 | `03-shapes.c` | The Four Shapes, in a Register |
 | `04-sizes.c` | Run It: Writing Through the Narrow Names |
+
+## Lecture 7
+
+| File | Slides |
+|------|--------|
+| `01-branches.c` | Run It: Same Bits, Two Answers |
+| `02-loops.c` | Run It: `while` and `for` Are the Same Code |
+| `03-cmov.c` | Run It: The Compiler Decides, Not Your Source · When `cmov` Is Not Allowed |
+| `04-calls.c` | Run It: Print the Return Address |
+| `05-recursion.c` | Run It: Watch the Stack March Down |
+
+`./05-recursion 200000 > /dev/null` overflows the stack and dies with SIGSEGV —
+the fastest way to see a stack overflow happen.
+
+## Lecture 8
+
+Two extra targets here, because the point of both is that the build settings
+change the answer:
+
+```bash
+make asan    # AddressSanitizer build of 01-overflow
+make ub      # builds 03-ub at -O0 AND -O1 and runs both
+```
+
+| File | Slides |
+|------|--------|
+| `01-overflow.c` | Run It: AddressSanitizer Finds It |
+| `02-strncpy.c` | Run It: `strncpy` Does Not Terminate |
+| `03-ub.c` | Run It: The Check That Disappeared |
+| `04-aliasing.c` | Run It: Two Defined Ways to Read the Bits |
+| `05-aslr.c` | Run It: Nothing Is Where It Was |
+
+`01-overflow.c` is deliberately buggy — it is the bug the lecture is about.
+Run it under `make asan` to see the overflow named.
 
