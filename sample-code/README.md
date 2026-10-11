@@ -15,6 +15,7 @@ sample code/
   lecture07/   jumps, the stack, calls and recursion (+ a GPU warp-divergence demo)
   lecture08/   buffer overflows, defenses and undefined behaviour
   lecture09/   the kernel: exceptions, system calls and processes (+ a GPU demo)
+  lecture10/   virtual memory: page faults, mmap, copy-on-write and protection
 ```
 
 ## Lecture 2
@@ -211,3 +212,25 @@ make gpu      # 11-launches and 12-gpu-printf: need an NVIDIA GPU and nvcc
 `01-privileged` and `03-divide` are meant to be killed by the kernel. That is
 what they demonstrate.
 
+## Lecture 10
+
+Everything builds and runs on Linux and macOS, but three things differ on a
+Mac. Apple Silicon pages are 16 KB, not 4 KB, so the fault counts in
+`01-page-faults-twice` and `05-cow` come out four times smaller. A write to a
+protected page ends the program with `SIGBUS`, not `SIGSEGV`. And there is no
+`/proc`, so `07-newlines` only counts.
+
+```bash
+make
+make run
+```
+
+| File | Slides |
+|------|--------|
+| `01-page-faults-twice.c` | Run It Again: Lecture 9's Page Faults |
+| `02-mmap-anon.c` | mmap: Memory Mapping |
+| `03-mmap-file.c` | mmap: Mapping a File |
+| `04-mmap-shared.c` | mmap: Shared Memory |
+| `05-cow.c` | Copy-on-Write · Copy-on-Write in the Page Tables · Practice 3 |
+| `06-protect.c` | Memory Protection · Practice 4 |
+| `07-newlines.c` | Practice 5 (and Answers to Practice 5) |
