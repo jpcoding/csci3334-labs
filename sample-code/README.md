@@ -143,7 +143,7 @@ binaries themselves will not run there.
 | File | Slides |
 |------|--------|
 | `01-first-look.c` | Run It: Get the Assembly Yourself · Run It: One Line of C, One Addressing Mode · Your First Whole Function · A Loop, Line by Line · Run It: The Bytes Are Right There |
-| `02-lea.c` | Run It: `lea` as the Cheap Multiplier |
+| `02-lea.c` | Run It: `lea` Builds Small Multiples |
 | `03-shapes.c` | The Four Shapes, in a Register |
 | `04-sizes.c` | Run It: Writing Through the Narrow Names |
 
@@ -190,7 +190,7 @@ Linux VM, or the lab machines). `strace` and `/proc` exist only on Linux.
 make          # everything that runs on any machine
 make run
 make linux    # 01-privileged and 04-hello: Linux x86-64 only
-make gpu      # 11-launches: needs an NVIDIA GPU and nvcc
+make gpu      # 11-launches and 12-gpu-printf: need an NVIDIA GPU and nvcc
 ```
 
 | File | Slides |
@@ -204,8 +204,9 @@ make gpu      # 11-launches: needs an NVIDIA GPU and nvcc
 | `07-buffering.c` | Run It: 1000 `printf` Calls, How Many `write`s? |
 | `08-syscall-cost.c` | Run It: What a System Call Costs |
 | `09-pid.c` | Run It: Every Process Has a Number |
-| `10-context-switches.c` | Run It: Counting Context Switches (use Linux; macOS counts differently) |
-| `11-launches.cu` | AI Systems Connection |
+| `10-context-switches.c` | Run It: Counting Context Switches · What the Context Switch Counts Show (use Linux; macOS counts differently) |
+| `11-launches.cu` | AI Systems Connection (what a kernel launch costs) |
+| `12-gpu-printf.cu` | Think About It: `printf` on the GPU · `printf` on the GPU: The CPU Does the Printing |
 
 `01-privileged` and `03-divide` are meant to be killed by the kernel. That is
 what they demonstrate.
