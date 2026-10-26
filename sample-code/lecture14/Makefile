@@ -1,11 +1,11 @@
 # Lecture 14 examples.
 #
 #   make          build them for THIS machine
-#   make run      run them all in order (about 20 seconds)
+#   make run      run them all in order (10 to 20 seconds)
 #   make clean
 #
 # Everything builds and runs on Linux and macOS. The numbers depend on the
-# machine; the slides show a Linux laptop with an Intel i5-6300HQ.
+# machine; the slides show a Linux laptop with an AMD Ryzen 7 8845HS.
 
 CC      = cc
 CFLAGS  = -std=c17 -Wall -Wextra -O1

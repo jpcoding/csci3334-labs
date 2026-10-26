@@ -317,7 +317,6 @@ sysctl hw.cachelinesize               # block size, macOS
 | `02-rowcol.c` | Row-Major vs. Column-Major · Run It: Row vs. Column Order |
 | `03-workingset.c` | Run It: Time per Load by Working Set Size |
 
-The numbers depend on the machine. The slides show an Intel i5-6300HQ running
-Linux, whose blocks are 64 bytes. Apple Silicon Macs use 128-byte blocks, so
-on a Mac the big jump in `01-stride` comes at stride 32, not 16, and the
-caches are larger.
+The numbers depend on the machine. The slides show an AMD Ryzen 7 8845HS
+running Linux, whose blocks are 64 bytes. Apple Silicon Macs use 128-byte
+blocks and larger caches, so the steps fall in different places there.
