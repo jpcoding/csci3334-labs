@@ -20,6 +20,8 @@ sample code/
   lecture12/   system-level I/O: read, write, short reads, stat and buffering
   lecture13/   file systems: directories, inodes, unlink and fork's shared position
   lecture14/   locality: stride, row vs. column order and working-set size
+  lecture15/   conflict misses: padding the rows of a matrix
+  lecture16/   lines per set, matrix-multiply loop order and false sharing
 ```
 
 ## Lecture 2
@@ -320,3 +322,49 @@ sysctl hw.cachelinesize               # block size, macOS
 The numbers depend on the machine. The slides show an AMD Ryzen 7 8845HS
 running Linux, whose blocks are 64 bytes. Apple Silicon Macs use 128-byte
 blocks and larger caches, so the steps fall in different places there.
+
+## Lecture 15
+
+Everything builds and runs on Linux and macOS. `make run` takes about one
+second and then prints the cache sizes (`lscpu -C` on Linux, `sysctl` on
+macOS).
+
+```bash
+make
+make run
+```
+
+| File | Slides |
+|------|--------|
+| `01-conflict.c` | Run It: Padding Each Row by One Block |
+
+The slide shows an AMD Ryzen 7 8845HS running Linux, where padding each row
+by one 64-byte block makes the column loop 4 to 7 times faster. The padded
+time stays the same from run to run; the unpadded time does not, because
+it depends on which physical pages the program gets. Apple Silicon Macs
+have 128-byte blocks and much larger caches, and the difference there is
+small.
+
+## Lecture 16
+
+Everything builds and runs on Linux and macOS. `make run` takes about 10
+seconds. The miss counts on the matrix-multiply slide come from `perf`,
+which is Linux only:
+
+```bash
+make
+make run
+perf stat -e L1-dcache-load-misses ./02-matmul kij     # also ijk, jki
+```
+
+| File | Slides |
+|------|--------|
+| `01-ways.c` | Run It: Counting the Lines per Set |
+| `02-matmul.c` | Matrix Multiply: Three Loop Orders · Run It: Matrix Multiply in Three Orders |
+| `03-falseshare.c` | Run It: False Sharing |
+
+`01-ways` shows the step after 8 blocks only on a cache that takes the set
+index from address bits 6 to 11, such as the slide's AMD Ryzen 7 8845HS.
+On an Apple Silicon Mac every row stays at L1 speed. Build `02-matmul`
+with `-DN=1024` to see the power-of-two case from the slide.
+
